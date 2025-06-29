@@ -1,0 +1,40 @@
+{
+  "name": "serverest-api",
+  "version": "1.0.0",
+  "description": "Automated API tests for the ServeRest project using Cypress",
+  "main": "index.js",
+  "scripts": {
+    "test": "npx cypress run",
+    "test:api": "npx cypress run",
+
+    "cy:open": "npx cypress open",
+    "cy:run": "npx cypress run",
+    "cy:run:headed": "npx cypress run --headed --browser chrome",
+
+    "format": "prettier --write \"cypress/**/*.js\"",
+
+    "test:usuarios": "npx cypress run --spec 'cypress/e2e/api/usuarios/usuarios.cy.js' --reporter mochawesome --reporter-options reportDir=reports,overwrite=true,html=true,json=true",
+    "test:report": "npx cypress run --reporter mochawesome --reporter-options reportDir=reports,overwrite=true,html=true,json=true",
+
+    "report:html": "npx mochawesome-merge reports/*.json | npx mochawesome-report-generator --reportDir reports/html",
+    "report:all": "npm run test:report && npm run report:html",
+    "report:byFile": "node generate-reports.js"
+  },
+  "keywords": [
+    "cypress",
+    "api",
+    "testing",
+    "automation",
+    "serverest"
+  ],
+  "author": "Leandro Risch",
+  "license": "MIT",
+  "type": "commonjs",
+  "devDependencies": {
+    "cypress": "^14.5.0",
+    "mochawesome": "^7.1.3",
+    "mochawesome-merge": "^4.4.1",
+    "mochawesome-report-generator": "^6.2.0",
+    "prettier": "^3.6.2"
+  }
+}

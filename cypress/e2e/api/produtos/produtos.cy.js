@@ -1,0 +1,137 @@
+describe('Products API', () => {
+  let createdProductId = ''
+  const product = {
+    nome: `Product ${Date.now()}`,
+    preco: 99,
+    descricao: 'Automated product test',
+    quantidade: 10
+  }
+
+  beforeEach(() => {
+    cy.loginAdmin().then((res) => {
+      cy.wrap(res.body.authorization).as('adminToken')
+    })
+  })
+
+  it('should return 200 and list products', () => {
+    cy.getProducts().then((res) => {
+      expect(res.status).to.eq(200)
+      expect(res.body.quantidade).to.be.greaterThan(0)
+      expect(res.body.produtos[0]).to.have.all.keys(
+        'nome',
+        'preco',
+        'descricao',
+        'quantidade',
+        '_id'
+      )
+    })
+  })
+
+  it('should return 201 and create a new product', function () {
+    cy.get('@adminToken').then((token) => {
+      cy.createProduct(product, token).then((res) => {
+        expect(res.status).to.eq(201)
+        expect(res.body.message).to.include('Cadastro realizado com sucesso')
+        expect(res.body._id).to.be.a('string')
+        createdProductId = res.body._id
+      })
+    })
+  })
+
+  it('should return 400 when creating product with duplicate name', function () {
+    cy.get('@adminToken').then((token) => {
+      cy.createProduct(product, token).then((res) => {
+        expect(res.status).to.eq(400)
+        expect(res.body.message).to.include('Já existe produto com esse nome')
+      })
+    })
+  })
+
+  it('should return 401 when creating product without token', () => {
+    cy.cadastrarProduto(product, '').then((res) => {
+      expect(res.status).to.eq(401)
+      expect(res.body.message).to.include('Token de acesso ausente')
+    })
+  })
+
+  it('should return 403 when non-admin tries to create a product', () => {
+    const normalUser = {
+      nome: 'User Test',
+      email: `user.${Date.now()}@qa.com.br`,
+      password: '123456',
+      administrador: 'false'
+    }
+
+    cy.createUser(normalUser).then(() => {
+      cy.loginUser(normalUser.email, normalUser.password).then((resLogin) => {
+        const userToken = resLogin.body.authorization
+        cy.createProduct(product, userToken).then((res) => {
+          expect(res.status).to.eq(403)
+          expect(res.body.message).to.include('Rota exclusiva para administradores')
+        })
+      })
+    })
+  })
+
+  it('should return 200 and retrieve product by ID', () => {
+    cy.getProductById(createdProductId).then((res) => {
+      expect(res.status).to.eq(200)
+      expect(res.body).to.have.property('_id', createdProductId)
+      expect(res.body).to.have.property('nome')
+    })
+  })
+
+  it('should return 200 when updating a product', function () {
+    const updated = {
+      nome: `Updated ${product.nome}`,
+      preco: 110,
+      descricao: 'Updated via API',
+      quantidade: 5
+    }
+
+    cy.get('@adminToken').then((token) => {
+      cy.updateProduct(createdProductId, updated, token).then((res) => {
+        expect(res.status).to.eq(200)
+        expect(res.body.message).to.include('Registro alterado com sucesso')
+      })
+    })
+  })
+
+  it('should return 200 and delete an existing product', function () {
+    cy.get('@adminToken').then((token) => {
+      cy.deleteProduct(createdProductId, token).then((res) => {
+        expect(res.status).to.eq(200)
+        expect(res.body.message).to.be.oneOf([
+          'Registro excluído com sucesso',
+          'Registro excluído com sucesso | Nenhum registro excluído'
+        ])
+      })
+    })
+  })
+
+  it('should return 401 when trying to delete product without token', () => {
+    cy.deletarProduto('000000000000000000000000', '').then((res) => {
+      expect(res.status).to.eq(401)
+      expect(res.body.message).to.include('Token de acesso ausente')
+    })
+  })
+
+  it('should return 403 when a non-admin user tries to delete a product', () => {
+    const newUser = {
+      nome: 'Common User',
+      email: `nonadmin.${Date.now()}@qa.com.br`,
+      password: 'senha',
+      administrador: 'false'
+    }
+
+    cy.createUser(newUser).then(() => {
+      cy.loginUser(newUser.email, newUser.password).then((resLogin) => {
+        const nonAdminToken = resLogin.body.authorization
+        cy.deletarProduto(createdProductId, nonAdminToken).then((res) => {
+          expect(res.status).to.eq(403)
+          expect(res.body.message).to.include('Rota exclusiva para administradores')
+        })
+      })
+    })
+  })
+})
