@@ -14,6 +14,7 @@ describe('Cart API', () => {
     })
   })
 
+  // POST /carrinhos → should return 401 when token is missing
   it('should return 401 when creating cart without token', () => {
     cy.createCart(products, '').then((res) => {
       expect(res.status).to.eq(401)
@@ -21,6 +22,7 @@ describe('Cart API', () => {
     })
   })
 
+  // GET /carrinhos → should return 200 and list carts
   it('should list carts and return 200', () => {
     cy.getCarts().then((res) => {
       expect(res.status).to.eq(200)
@@ -35,6 +37,7 @@ describe('Cart API', () => {
     })
   })
 
+  // GET /carrinhos/:id → should return 400 for invalid cart ID
   it('should return 400 for nonexistent cart ID', () => {
     cy.getCartById('00000000000000000000000000000000').then((res) => {
       expect(res.status).to.eq(400)
@@ -47,6 +50,7 @@ describe('Cart API', () => {
     })
   })
 
+  // POST /carrinhos + POST /carrinhos/concluir-compra → should return 200 when completing purchase
   it('should complete the cart purchase and return 200', () => {
     cy.createCart(products, token).then(() => {
       cy.checkoutCart(token).then((res) => {
@@ -60,6 +64,7 @@ describe('Cart API', () => {
     })
   })
 
+  // POST /carrinhos/concluir-compra → should return 401 without token
   it('should return 401 when trying to complete purchase without token', () => {
     cy.checkoutCart('').then((res) => {
       expect(res.status).to.eq(401)
@@ -67,6 +72,7 @@ describe('Cart API', () => {
     })
   })
 
+  // DELETE /carrinhos/cancelar-compra → should return 200 and cancel the cart
   it('should cancel a cart and restock items', () => {
     cy.createCart(products, token).then(() => {
       cy.cancelCart(token).then((res) => {
@@ -80,6 +86,7 @@ describe('Cart API', () => {
     })
   })
 
+  // DELETE /carrinhos/cancelar-compra → should return 401 without token
   it('should return 401 when trying to cancel cart without token', () => {
     cy.cancelCart('').then((res) => {
       expect(res.status).to.eq(401)

@@ -13,6 +13,7 @@ describe('Products API', () => {
     })
   })
 
+  // GET /produtos → should return 200 and list all products
   it('should return 200 and list products', () => {
     cy.getProducts().then((res) => {
       expect(res.status).to.eq(200)
@@ -27,6 +28,7 @@ describe('Products API', () => {
     })
   })
 
+  // POST /produtos → should return 201 when creating a new product
   it('should return 201 and create a new product', function () {
     cy.get('@adminToken').then((token) => {
       cy.createProduct(product, token).then((res) => {
@@ -38,6 +40,7 @@ describe('Products API', () => {
     })
   })
 
+  // POST /produtos → should return 400 for duplicated product name
   it('should return 400 when creating product with duplicate name', function () {
     cy.get('@adminToken').then((token) => {
       cy.createProduct(product, token).then((res) => {
@@ -47,6 +50,7 @@ describe('Products API', () => {
     })
   })
 
+  // POST /produtos → should return 401 when token is missing
   it('should return 401 when creating product without token', () => {
     cy.cadastrarProduto(product, '').then((res) => {
       expect(res.status).to.eq(401)
@@ -54,6 +58,7 @@ describe('Products API', () => {
     })
   })
 
+  // POST /produtos → should return 403 when user is not admin
   it('should return 403 when non-admin tries to create a product', () => {
     const normalUser = {
       nome: 'User Test',
@@ -73,6 +78,7 @@ describe('Products API', () => {
     })
   })
 
+  // GET /produtos/:id → should return 200 and retrieve product by ID
   it('should return 200 and retrieve product by ID', () => {
     cy.getProductById(createdProductId).then((res) => {
       expect(res.status).to.eq(200)
@@ -81,6 +87,7 @@ describe('Products API', () => {
     })
   })
 
+  // PUT /produtos/:id → should return 200 when updating product
   it('should return 200 when updating a product', function () {
     const updated = {
       nome: `Updated ${product.nome}`,
@@ -97,6 +104,7 @@ describe('Products API', () => {
     })
   })
 
+  // DELETE /produtos/:id → should return 200 when deleting existing product
   it('should return 200 and delete an existing product', function () {
     cy.get('@adminToken').then((token) => {
       cy.deleteProduct(createdProductId, token).then((res) => {
@@ -109,6 +117,7 @@ describe('Products API', () => {
     })
   })
 
+  // DELETE /produtos/:id → should return 401 when token is missing
   it('should return 401 when trying to delete product without token', () => {
     cy.deletarProduto('000000000000000000000000', '').then((res) => {
       expect(res.status).to.eq(401)
@@ -116,6 +125,7 @@ describe('Products API', () => {
     })
   })
 
+  // DELETE /produtos/:id → should return 403 when user is not admin
   it('should return 403 when a non-admin user tries to delete a product', () => {
     const newUser = {
       nome: 'Common User',

@@ -1,4 +1,5 @@
 describe('Login API', () => {
+  // POST /login → should return 200 for valid credentials
   it('should login successfully with valid credentials', () => {
     cy.request({
       method: 'POST',
@@ -14,6 +15,7 @@ describe('Login API', () => {
     })
   })
 
+  // POST /login → should return 401 for invalid credentials
   it('should return 401 when credentials are invalid', () => {
     cy.request({
       method: 'POST',
