@@ -64,6 +64,3 @@ Cypress.Commands.add('criarProdutoValido', () => {
     body: produto
   })
 })
-
-// English alias for product creation
-Cypress.Commands.add('createProductWithAlias', () => cy.criarProdutoValido())

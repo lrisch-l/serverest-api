@@ -1,14 +1,13 @@
-Cypress.Commands.add('loginAPI', () => {
+Cypress.Commands.add('loginAPI', (email, password) => {
   return cy
     .request({
       method: 'POST',
       url: '/login',
-      body: {
-        email: 'fulano@qa.com',
-        password: 'teste'
-      }
+      body: { email, password }
     })
     .then((res) => {
+      expect(res.status).to.eq(200)
+      expect(res.body).to.have.property('authorization')
       return res.body.authorization
     })
 })
