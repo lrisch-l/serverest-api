@@ -1,5 +1,3 @@
-/// <reference types="cypress" />
-
 describe('Users API', () => {
   const user = {
     nome: 'Fulano da Silva',

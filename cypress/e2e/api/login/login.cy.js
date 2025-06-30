@@ -1,12 +1,24 @@
 describe('Login API', () => {
+  const testUser = {
+    nome: 'Login Test User',
+    email: `login.${Date.now()}@qa.com.br`,
+    password: 'teste123',
+    administrador: 'true'
+  }
+
+  // POST /usuarios → create a valid user before running login test
+  before(() => {
+    cy.createUser(testUser)
+  })
+
   // POST /login → should return 200 for valid credentials
   it('should login successfully with valid credentials', () => {
     cy.request({
       method: 'POST',
       url: '/login',
       body: {
-        email: 'fulano@qa.com',
-        password: 'teste'
+        email: testUser.email,
+        password: testUser.password
       }
     }).then((response) => {
       expect(response.status).to.eq(200)
