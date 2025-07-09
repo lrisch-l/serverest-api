@@ -52,8 +52,7 @@ Failed tests automatically upload screenshots and videos as artifacts for debugg
 
 ## 👨‍💻 Author
 
-**Leandro Risch**
-
+**Leandro Risch**  
 [GitHub](https://github.com/lrisch-l) • [LinkedIn](https://www.linkedin.com/in/leandro-risch-38118726a/)
 
 
