@@ -28,9 +28,10 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      # Step 4: Run Cypress tests using the custom script (with video/screenshot support)
+      # Step 4: Run Cypress tests using the correct script (with video/screenshot support)
+      # This script runs all test modules sequentially with mochawesome reports
       - name: Run Cypress tests
-        run: npm run report:all
+        run: npm run report:all:split
 
       # Step 5: Upload screenshots if any test fails (for debugging)
       - name: Upload screenshots
