@@ -22,7 +22,6 @@ npm install
 cypress/
 ├── e2e/api/           # Test cases organized by endpoint
 ├── screenshots/       # Screenshots captured on test failure
-├── videos/            # Cypress test run recordings
 html/                  # Mochawesome HTML reports
 generate-reports.js    # Script to merge reports
 
