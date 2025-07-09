@@ -35,7 +35,7 @@ jobs:
       # Step 5: Upload screenshots if any test fails (for debugging)
       - name: Upload screenshots
         if: failure()   # Only runs if the previous step failed
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: cypress-screenshots
           path: cypress/screenshots
@@ -43,7 +43,7 @@ jobs:
       # Step 6: Upload Cypress videos (always, even if tests pass)
       - name: Upload videos
         if: always()    # Runs regardless of success or failure
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: cypress-videos
           path: cypress/videos
