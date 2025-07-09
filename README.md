@@ -49,14 +49,7 @@ npm run report:carrinhos
 This project uses GitHub Actions to run Cypress tests on every push and pull request to main.
 Failed tests automatically upload screenshots and videos as artifacts for debugging.
 
-## 👨‍💻 Author
 
-**Leandro Risch**  
-[GitHub](https://github.com/lrisch-l) • [LinkedIn](https://www.linkedin.com/in/leandro-risch-38118726a/)
-
-QA Engineer with solid experience in automated testing and quality assurance.  
-Working with Cypress since 2016, focused on building reliable, maintainable, and scalable test suites for APIs and web applications.  
-Passionate about clean code, continuous integration, and delivering high-quality software through automation.
 
 
 
