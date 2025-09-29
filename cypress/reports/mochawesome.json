@@ -1,0 +1,219 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 7,
+    "passes": 7,
+    "pending": 0,
+    "failures": 0,
+    "start": "2025-09-29T22:21:11.918Z",
+    "end": "2025-09-29T22:21:16.415Z",
+    "duration": 4497,
+    "testsRegistered": 7,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "524fb972-d10c-41b6-b289-2d7126538c83",
+      "title": "",
+      "fullFile": "cypress\\e2e\\api\\carrinhos\\carrinhos.cy.js",
+      "file": "cypress\\e2e\\api\\carrinhos\\carrinhos.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "d5c550d1-892f-430d-a976-33fa0048689b",
+          "title": "Cart API",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "should return 401 when creating cart without token",
+              "fullTitle": "Cart API should return 401 when creating cart without token",
+              "timedOut": null,
+              "duration": 755,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.createCart(products, '').then(res => {\n  expect(res.status).to.eq(401);\n  expect(res.body.message).to.include('Token de acesso ausente');\n});",
+              "err": {},
+              "uuid": "b3c60402-0232-45d1-bca1-a1c540d184a8",
+              "parentUUID": "d5c550d1-892f-430d-a976-33fa0048689b",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "should list carts and return 200",
+              "fullTitle": "Cart API should list carts and return 200",
+              "timedOut": null,
+              "duration": 567,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.getCarts().then(res => {\n  expect(res.status).to.eq(200);\n  expect(res.body.quantidade).to.be.greaterThan(0);\n  expect(res.body.carrinhos[0]).to.have.all.keys('produtos', 'precoTotal', 'quantidadeTotal', 'idUsuario', '_id');\n});",
+              "err": {},
+              "uuid": "20d68f37-f978-47e7-8edd-ace404a3392e",
+              "parentUUID": "d5c550d1-892f-430d-a976-33fa0048689b",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "should return 400 for nonexistent cart ID",
+              "fullTitle": "Cart API should return 400 for nonexistent cart ID",
+              "timedOut": null,
+              "duration": 552,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.getCartById('00000000000000000000000000000000').then(res => {\n  expect(res.status).to.eq(400);\n  if (res.body && res.body.message) {\n    expect(String(res.body.message)).to.include('Carrinho não encontrado');\n  } else {\n    expect(res.body).to.be.an('object');\n    expect(res.body).to.not.be.null;\n  }\n});",
+              "err": {},
+              "uuid": "5f4216dd-c053-4ce2-aa9b-cbc3fe1b6b59",
+              "parentUUID": "d5c550d1-892f-430d-a976-33fa0048689b",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "should complete the cart purchase and return 200",
+              "fullTitle": "Cart API should complete the cart purchase and return 200",
+              "timedOut": null,
+              "duration": 716,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.createCart(products, token).then(() => {\n  cy.checkoutCart(token).then(res => {\n    expect(res.status).to.eq(200);\n    expect(res.body.message).to.be.oneOf(['Registro excluído com sucesso', 'Registro excluído com sucesso | Não foi encontrado carrinho para esse usuário', 'Não foi encontrado carrinho para esse usuário']);\n  });\n});",
+              "err": {},
+              "uuid": "1f67becc-12a2-4e96-bde6-6c2eb6900803",
+              "parentUUID": "d5c550d1-892f-430d-a976-33fa0048689b",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "should return 401 when trying to complete purchase without token",
+              "fullTitle": "Cart API should return 401 when trying to complete purchase without token",
+              "timedOut": null,
+              "duration": 525,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.checkoutCart('').then(res => {\n  expect(res.status).to.eq(401);\n  expect(String(res.body.message)).to.include('Token de acesso ausente');\n});",
+              "err": {},
+              "uuid": "4365fcc2-6f4e-4171-8f0f-85885454e319",
+              "parentUUID": "d5c550d1-892f-430d-a976-33fa0048689b",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "should cancel a cart and restock items",
+              "fullTitle": "Cart API should cancel a cart and restock items",
+              "timedOut": null,
+              "duration": 688,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.createCart(products, token).then(() => {\n  cy.cancelCart(token).then(res => {\n    expect(res.status).to.eq(200);\n    expect(res.body.message).to.be.oneOf(['Registro excluído com sucesso', 'Registro excluído com sucesso | Não foi encontrado carrinho para esse usuário', 'Não foi encontrado carrinho para esse usuário']);\n  });\n});",
+              "err": {},
+              "uuid": "a976135f-4174-44e6-87aa-8278cd39ba32",
+              "parentUUID": "d5c550d1-892f-430d-a976-33fa0048689b",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "should return 401 when trying to cancel cart without token",
+              "fullTitle": "Cart API should return 401 when trying to cancel cart without token",
+              "timedOut": null,
+              "duration": 523,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.cancelCart('').then(res => {\n  expect(res.status).to.eq(401);\n  expect(res.body.message).to.include('Token de acesso ausente');\n});",
+              "err": {},
+              "uuid": "564ec9bc-5a59-438b-a7f3-e25f34b58c5f",
+              "parentUUID": "d5c550d1-892f-430d-a976-33fa0048689b",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "b3c60402-0232-45d1-bca1-a1c540d184a8",
+            "20d68f37-f978-47e7-8edd-ace404a3392e",
+            "5f4216dd-c053-4ce2-aa9b-cbc3fe1b6b59",
+            "1f67becc-12a2-4e96-bde6-6c2eb6900803",
+            "4365fcc2-6f4e-4171-8f0f-85885454e319",
+            "a976135f-4174-44e6-87aa-8278cd39ba32",
+            "564ec9bc-5a59-438b-a7f3-e25f34b58c5f"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 4326,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.2.0"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": false,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.4"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "cypress/reports",
+        "overwrite": false,
+        "html": false,
+        "json": true
+      },
+      "version": "6.3.0"
+    }
+  }
+}
