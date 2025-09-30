@@ -56,6 +56,10 @@ npm run report:carrinhos
 🟡 [Products Report](https://github.com/lrisch-l/serverest-api/blob/main/html/produtos-report.html)  
 🟠 [Carts Report](https://github.com/lrisch-l/serverest-api/blob/main/html/carrinhos-report.html)
 
+## 📥 Download latest
+
+[Mochawesome Report](https://github.com/lrisch-l/serverest-api/actions) from GitHub Actions → Artifacts section
+
 ## 📈 GitHub Stats
 
 <p align="center"><img src="https://github-readme-stats.vercel.app/api?username=lrisch-l&show_icons=true&theme=github_dark" width="500"/></p>
