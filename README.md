@@ -6,6 +6,7 @@ Automated API testing project using Cypress and Mochawesome.
 ![Made with Cypress](https://img.shields.io/badge/Cypress-automation-brightgreen?logo=cypress)
 ![Node.js](https://img.shields.io/badge/Node.js-v18.17.0-blue?logo=node.js)
 ![Status](https://img.shields.io/badge/tests-passing-brightgreen)
+![Profile Views](https://komarev.com/ghpvc/?username=lrisch-l)
 
 Automated API testing project for the [ServeRest](https://github.com/PauloGoncalvesBH/ServeRest) API using [Cypress](https://www.cypress.io/) and [Mochawesome](https://github.com/adamgruber/mochawesome).  
 Includes modular test reports, CI integration via GitHub Actions, and visual artifacts (screenshots/videos) for debugging.
@@ -26,8 +27,9 @@ npm install
 cypress/
 ├── e2e/api/           # Test cases organized by endpoint
 ├── screenshots/       # Screenshots captured on test failure
-html/                  # Mochawesome HTML reports
-generate-reports.js    # Script to merge reports
+├── videos/            # Cypress video recordings
+├── reports/           # Mochawesome HTML reports
+
 
 ```
 
@@ -75,7 +77,8 @@ npm run report:carrinhos
 <details><summary>🔧 Click to expand CI/CD details</summary>
 This project uses GitHub Actions to run Cypress tests on every push and pull request to main.
 Failed tests automatically upload screenshots and videos as artifacts for debugging.
-Reports are generated using Mochawesome and stored in /html.
+Reports are generated using Mochawesome and stored in /cypress/reports.
+📦 All artifacts are downloadable from the [Actions tab](https://github.com/lrisch-l/serverest-api/actions).
 </details>
 
 ## 📜 Endpoint Documentation
