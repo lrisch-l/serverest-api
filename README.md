@@ -78,7 +78,7 @@ npm run report:carrinhos
 This project uses GitHub Actions to run Cypress tests on every push and pull request to main.
 Failed tests automatically upload screenshots and videos as artifacts for debugging.
 Reports are generated using Mochawesome and stored in /cypress/reports.
-📦 All artifacts are downloadable from the [Actions tab](https://github.com/lrisch-l/serverest-api/actions).
+📦 All artifacts are downloadable from the Actions tab (https://github.com/lrisch-l/serverest-api/actions).
 </details>
 
 ## 📜 Endpoint Documentation
