@@ -11,8 +11,6 @@ Automated API testing project using Cypress and Mochawesome.
 Automated API testing project for the [ServeRest](https://github.com/PauloGoncalvesBH/ServeRest) API using [Cypress](https://www.cypress.io/) and [Mochawesome](https://github.com/adamgruber/mochawesome).  
 Includes modular test reports, CI integration via GitHub Actions, and visual artifacts (screenshots/videos) for debugging.
 
-![Profile Views](https://komarev.com/ghpvc/?username=lrisch-l)
-
 ## 🚀 Getting Started
 
 ```bash
