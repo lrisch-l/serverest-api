@@ -19,3 +19,7 @@ import './helpers/loginHelper'
 import './helpers/usuariosHelper'
 import './helpers/produtosHelper'
 import './helpers/carrinhosHelper'
+
+// Register Mochawesome reporter to capture screenshots and logs
+import 'cypress-mochawesome-reporter/register'
+
