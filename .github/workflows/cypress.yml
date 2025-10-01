@@ -3,15 +3,15 @@ name: Cypress Tests (Push & PR)
 
 # Define when the workflow should be triggered
 on:
-  push:                 # Trigger the workflow on every push to the main branch
-    branches: [ main ]
-  pull_request:         # Also trigger the workflow on pull requests targeting main
-    branches: [ main ]
+  push: # Trigger the workflow on every push to the main branch
+    branches: [main]
+  pull_request: # Also trigger the workflow on pull requests targeting main
+    branches: [main]
 
 # Define the job that will run the Cypress tests
 jobs:
   cypress-run:
-    runs-on: ubuntu-latest   # Use the latest Ubuntu Linux environment
+    runs-on: ubuntu-latest # Use the latest Ubuntu Linux environment
 
     steps:
       # Step 1: Checkout the code from the repository
@@ -22,7 +22,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18'
+          node-version: "18"
 
       # Step 3: Install all project dependencies using npm
       - name: Install dependencies
@@ -30,12 +30,15 @@ jobs:
 
       # Step 4: Run Cypress tests using the correct script (with video/screenshot support)
       # This script runs all test modules sequentially with mochawesome reports
+      # You can optionally filter tests by tag using CYPRESS_grep (e.g. @api, @regression, @smoke)
       - name: Run Cypress tests
         run: npm run report:all:split
+        env:
+          CYPRESS_grep: ${{ github.event.inputs.testTag || '' }} # Optional tag filter
 
       # Step 5: Upload screenshots if any test fails (for debugging)
       - name: Upload screenshots
-        if: failure()   # Only runs if the previous step failed
+        if: failure() # Only runs if the previous step failed
         uses: actions/upload-artifact@v4
         with:
           name: cypress-screenshots
@@ -43,7 +46,7 @@ jobs:
 
       # Step 6: Upload Cypress videos (always, even if tests pass)
       - name: Upload videos
-        if: always()    # Runs regardless of success or failure
+        if: always() # Runs regardless of success or failure
         uses: actions/upload-artifact@v4
         with:
           name: cypress-videos
@@ -51,7 +54,7 @@ jobs:
 
       # Step 7: Upload Mochawesome HTML report
       - name: Upload Mochawesome report
-        if: always()    # Runs regardless of success or failure
+        if: always() # Runs regardless of success or failure
         uses: actions/upload-artifact@v4
         with:
           name: mochawesome-report

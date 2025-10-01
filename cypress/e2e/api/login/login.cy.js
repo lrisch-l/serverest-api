@@ -10,13 +10,13 @@ describe('Login API', () => {
     cy.createUser(testUser)
   })
 
-  it('should authenticate successfully with valid credentials', () => {
+  it('should authenticate successfully with valid credentials @smoke', () => {
     cy.loginAPI(testUser.email, testUser.password).then((token) => {
       expect(token).to.be.a('string').and.not.be.empty
     })
   })
 
-  it('should return 401 when using invalid credentials', () => {
+  it('should return 401 when using invalid credentials @smoke', () => {
     cy.request({
       method: 'POST',
       url: '/login',

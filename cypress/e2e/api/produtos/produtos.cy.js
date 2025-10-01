@@ -14,7 +14,7 @@ describe('Products API', () => {
   })
 
   // GET /produtos → should return 200 and list all products
-  it('should return 200 and list products', () => {
+  it('should return 200 and list products @regression', () => {
     cy.getProducts().then((res) => {
       expect(res.status).to.eq(200)
       expect(res.body.quantidade).to.be.greaterThan(0)
@@ -29,7 +29,7 @@ describe('Products API', () => {
   })
 
   // POST /produtos → should return 201 when creating a new product
-  it('should return 201 and create a new product', function () {
+  it('should return 201 and create a new product @regression', function () {
     cy.get('@adminToken').then((token) => {
       cy.createProduct(product, token).then((res) => {
         expect(res.status).to.eq(201)
@@ -41,7 +41,7 @@ describe('Products API', () => {
   })
 
   // POST /produtos → should return 400 for duplicated product name
-  it('should return 400 when creating product with duplicate name', function () {
+  it('should return 400 when creating product with duplicate name @regression', function () {
     cy.get('@adminToken').then((token) => {
       cy.createProduct(product, token).then((res) => {
         expect(res.status).to.eq(400)
@@ -51,7 +51,7 @@ describe('Products API', () => {
   })
 
   // POST /produtos → should return 401 when token is missing
-  it('should return 401 when creating product without token', () => {
+  it('should return 401 when creating product without token @regression', () => {
     cy.cadastrarProduto(product, '').then((res) => {
       expect(res.status).to.eq(401)
       expect(res.body.message).to.include('Token de acesso ausente')
@@ -59,7 +59,7 @@ describe('Products API', () => {
   })
 
   // POST /produtos → should return 403 when user is not admin
-  it('should return 403 when non-admin tries to create a product', () => {
+  it('should return 403 when non-admin tries to create a product @regression', () => {
     const normalUser = {
       nome: 'User Test',
       email: `user.${Date.now()}@qa.com.br`,
@@ -78,7 +78,7 @@ describe('Products API', () => {
   })
 
   // GET /produtos/:id → should return 200 and retrieve product by ID
-  it('should return 200 and retrieve product by ID', () => {
+  it('should return 200 and retrieve product by ID @regression', () => {
     cy.getProductById(createdProductId).then((res) => {
       expect(res.status).to.eq(200)
       expect(res.body).to.have.property('_id', createdProductId)
@@ -87,7 +87,7 @@ describe('Products API', () => {
   })
 
   // PUT /produtos/:id → should return 200 when updating product
-  it('should return 200 when updating a product', function () {
+  it('should return 200 when updating a product @regression', function () {
     const updated = {
       nome: `Updated ${product.nome}`,
       preco: 110,
@@ -103,7 +103,7 @@ describe('Products API', () => {
   })
 
   // DELETE /produtos/:id → should return 200 when deleting existing product
-  it('should return 200 and delete an existing product', function () {
+  it('should return 200 and delete an existing product @regression', function () {
     cy.get('@adminToken').then((token) => {
       cy.deleteProduct(createdProductId, token).then((res) => {
         expect(res.status).to.eq(200)
@@ -116,7 +116,7 @@ describe('Products API', () => {
   })
 
   // DELETE /produtos/:id → should return 401 when token is missing
-  it('should return 401 when trying to delete product without token', () => {
+  it('should return 401 when trying to delete product without token @regression', () => {
     cy.deletarProduto('000000000000000000000000', '').then((res) => {
       expect(res.status).to.eq(401)
       expect(res.body.message).to.include('Token de acesso ausente')
@@ -124,7 +124,7 @@ describe('Products API', () => {
   })
 
   // DELETE /produtos/:id → should return 403 when user is not admin
-  it('should return 403 when a non-admin user tries to delete a product', () => {
+  it('should return 403 when a non-admin user tries to delete a product @regression', () => {
     const newUser = {
       nome: 'Common User',
       email: `nonadmin.${Date.now()}@qa.com.br`,

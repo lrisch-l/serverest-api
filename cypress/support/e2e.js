@@ -23,3 +23,5 @@ import './helpers/carrinhosHelper'
 // Register Mochawesome reporter to capture screenshots and logs
 import 'cypress-mochawesome-reporter/register'
 
+// Register cypress-grep to enable tag-based test filtering
+import 'cypress-grep'
