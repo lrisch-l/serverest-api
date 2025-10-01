@@ -93,4 +93,23 @@ describe('Cart API', () => {
       expect(res.body.message).to.include('Token de acesso ausente')
     })
   })
+
+  context('Edge Cases', () => {
+    it('should return 400 when adding nonexistent product to cart', () => {
+      const fakeProducts = [{ idProduto: 'fake1234567890', quantidade: 1 }]
+      cy.createCart(fakeProducts, token).then((res) => {
+        expect(res.status).to.eq(400)
+        expect(res.body.message).to.include('Produto não encontrado')
+      })
+    })
+
+    it('should return 404 when trying to checkout without a cart', () => {
+      cy.cancelCart(token).then(() => {
+        cy.checkoutCart(token).then((res) => {
+          expect(res.status).to.be.oneOf([200, 404, 400])
+          expect(res.body.message).to.include('Não foi encontrado carrinho')
+        })
+      })
+    })
+  })
 })

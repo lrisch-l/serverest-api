@@ -66,7 +66,6 @@ describe('Products API', () => {
       password: '123456',
       administrador: 'false'
     }
-
     cy.createUser(normalUser).then(() => {
       cy.loginUser(normalUser.email, normalUser.password).then((resLogin) => {
         const userToken = resLogin.body.authorization
@@ -95,7 +94,6 @@ describe('Products API', () => {
       descricao: 'Updated via API',
       quantidade: 5
     }
-
     cy.get('@adminToken').then((token) => {
       cy.updateProduct(createdProductId, updated, token).then((res) => {
         expect(res.status).to.eq(200)
@@ -133,7 +131,6 @@ describe('Products API', () => {
       password: 'senha',
       administrador: 'false'
     }
-
     cy.createUser(newUser).then(() => {
       cy.loginUser(newUser.email, newUser.password).then((resLogin) => {
         const nonAdminToken = resLogin.body.authorization
