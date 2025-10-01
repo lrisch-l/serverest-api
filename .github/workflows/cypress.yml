@@ -1,52 +1,62 @@
-# Name of the workflow that will appear in the GitHub Actions tab
+# Name of the workflow as it appears in the GitHub Actions tab
 name: Cypress Tests (Push & PR)
 
 # Define when the workflow should be triggered
 on:
-  push: # Trigger the workflow on every push to the main branch
-    branches: [main]
-  pull_request: # Also trigger the workflow on pull requests targeting main
-    branches: [main]
+  push:
+    branches: [main] # Trigger on every push to the main branch
+  pull_request:
+    branches: [main] # Trigger on pull requests targeting the main branch
+  workflow_dispatch:
+    inputs:
+      testTag:
+        description: "Tag to filter tests (e.g. @api, @regression, @smoke)"
+        required: false
+        default: "" # Optional input for manual workflow runs
 
-# Define the job that will run the Cypress tests
+# Define the job that will execute the Cypress tests
 jobs:
   cypress-run:
     runs-on: ubuntu-latest # Use the latest Ubuntu Linux environment
 
     steps:
-      # Step 1: Checkout the code from the repository
+      # Step 1: Checkout the repository code
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # Step 2: Set up Node.js environment with version 18
+      # Step 2: Set up Node.js environment
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: "18"
+          node-version: "18" # Specify Node.js version
 
-      # Step 3: Install all project dependencies using npm
+      # Step 3: Install project dependencies
       - name: Install dependencies
-        run: npm install --legacy-peer-deps
+        run: npm install --legacy-peer-deps # Avoid peer dependency conflicts
 
-      # Step 4: Run Cypress tests using the correct script (with video/screenshot support)
-      # This script runs all test modules sequentially with mochawesome reports
-      # You can optionally filter tests by tag using CYPRESS_grep (e.g. @api, @regression, @smoke)
-      - name: Run Cypress tests
-        run: npm run report:all:split
+      # Step 4: Run Cypress tests by tag or fallback to all tests
+      - name: Run Cypress tests by tag (with fallback)
+        run: |
+          if [ -z "${{ github.event.inputs.testTag }}" ]; then
+            echo "No tag provided. Running all tests..."
+            npm run report:all:split
+          else
+            echo "Running tests with tag: ${{ github.event.inputs.testTag }}"
+            npm run report:tag
         env:
-          CYPRESS_grep: ${{ github.event.inputs.testTag || '' }} # Optional tag filter
+          CYPRESS_grep: ${{ github.event.inputs.testTag }} # Pass tag to Cypress grep
 
-      # Step 5: Upload screenshots if any test fails (for debugging)
+      # Step 5: Upload screenshots if any test fails
       - name: Upload screenshots
-        if: failure() # Only runs if the previous step failed
+        if: failure()
         uses: actions/upload-artifact@v4
         with:
           name: cypress-screenshots
           path: cypress/screenshots
 
-      # Step 6: Upload Cypress videos (always, even if tests pass)
+      # Step 6: Upload Cypress videos (always)
       - name: Upload videos
-        if: always() # Runs regardless of success or failure
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: cypress-videos
@@ -54,7 +64,7 @@ jobs:
 
       # Step 7: Upload Mochawesome HTML report
       - name: Upload Mochawesome report
-        if: always() # Runs regardless of success or failure
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: mochawesome-report
