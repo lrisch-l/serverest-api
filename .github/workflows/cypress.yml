@@ -36,15 +36,16 @@ jobs:
 
       # Step 4: Run Cypress tests by tag or fallback to all tests
       - name: Run Cypress tests by tag (with fallback)
+        env:
+          CYPRESS_grep: ${{ github.event.inputs.testTag }} # Pass tag to Cypress grep
         run: |
-          if [ -z "${{ github.event.inputs.testTag }}" ]; then
+          if [ -z "$CYPRESS_grep" ]; then
             echo "No tag provided. Running all tests..."
             npm run report:all:split
           else
-            echo "Running tests with tag: ${{ github.event.inputs.testTag }}"
+            echo "Running tests with tag: $CYPRESS_grep"
             npm run report:tag
-        env:
-          CYPRESS_grep: ${{ github.event.inputs.testTag }} # Pass tag to Cypress grep
+          fi
 
       # Step 5: Upload screenshots if any test fails
       - name: Upload screenshots
