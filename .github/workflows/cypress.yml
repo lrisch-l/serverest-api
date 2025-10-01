@@ -26,7 +26,7 @@ jobs:
 
       # Step 3: Install all project dependencies using npm
       - name: Install dependencies
-        run: npm install
+        run: npm install --legacy-peer-deps
 
       # Step 4: Run Cypress tests using the correct script (with video/screenshot support)
       # This script runs all test modules sequentially with mochawesome reports
